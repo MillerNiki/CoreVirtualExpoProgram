@@ -1,6 +1,8 @@
 //.NetSystemCollections
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 //Unity Library
 using UnityEngine;
 using TMPro;
@@ -9,6 +11,8 @@ using UnityEngine.UI;
 //PhotonPunLibrarySDK
 using Photon.Pun;
 using Photon.Realtime;
+
+using VirtualExpo.CustomLobbySettings;
 
 namespace VirtualExpo.MainMenu.ConnectionManager
 {
@@ -19,6 +23,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
     /// - Orange : left room / Disconnected (#FFA500)
     /// - NeonViolet : Joining Room Scene (#B026FF)
     /// - NeonYellow : Ping Connection (#FFF01F)
+    /// - Snow : RoomUpdate
 
     public class LauncherConnectionManager : MonoBehaviourPunCallbacks
     {
@@ -32,28 +37,17 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         #endregion
         #region Private Variable
         [Space(5)]
-        [Header("Player Identity Variable")]
+        [Header("Photon Player Identity Variable")]
         [SerializeField] private string playerNickName;
         [SerializeField] private string appVersion = "1";
 
-        [Space(5)]
-        [Header("Lobby Variable")]
-        [SerializeField] private string lobbyName;
-        enum lobbyTypeList
-        {
+        [SerializeField] private LobbySettingsScriptableObject lobbySettings;
 
-            Default,
-            AsyncRandomLobby,
-            SqlLobby
+        [SerializeField] private string sceneName = "MainArea";
 
-        }
-        [SerializeField] private lobbyTypeList lobbyType;
+
         LobbyType lobbyTypeChoise;
-
-        [Space(5)]
-        [Header("Photon Custom Lobby & Room List")]
-        private TypedLobby customLobby;
-
+        TypedLobby customLobby;
 
         #endregion
 
@@ -65,6 +59,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         {
             
             PhotonNetwork.AutomaticallySyncScene = true;
+
+            //Resources.LoadAll("FolderName/FolderName(x)", typeof("TypeOfClass/Data")).Cast<"TypeOfClass/Data">().ToArray(); // this is for load the data from resources
 
         }
 
@@ -108,7 +104,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
             {
 
                 startButton.interactable = false;
-                Debug.LogWarning("Nickname field is empty.");
+                //Debug.LogWarning("Nickname field is empty.");
 
             }
             else
@@ -128,23 +124,23 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         private void JoinCustomLobby()
         {
 
-            switch (lobbyType)
+            switch (lobbySettings.typeListLobby)
             {
-                case lobbyTypeList.Default:
+                case "Default":
                     lobbyTypeChoise = LobbyType.Default;
                     Debug.Log("<color=yellow>Default LobbyType</color>");
                     break;
-                case lobbyTypeList.AsyncRandomLobby:
+                case "AsyncRandomLobby":
                     lobbyTypeChoise = LobbyType.AsyncRandomLobby;
                     Debug.Log("<color=yellow>AsyncRandomLobby LobbyType</color>");
                     break;
-                case lobbyTypeList.SqlLobby:
+                case "SqlLobby":
                     lobbyTypeChoise = LobbyType.SqlLobby;
                     Debug.Log("<color=yellow>SqlLobby LobbyType</color>");
                     break;
             }
 
-            customLobby = new TypedLobby(lobbyName, lobbyTypeChoise);
+            customLobby = new TypedLobby(lobbySettings.lobbyName, lobbyTypeChoise);
 
             if (PhotonNetwork.IsConnectedAndReady)
             {
@@ -161,7 +157,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         }
 
         #endregion
-
+        
         #endregion
 
         #region PHOTONPUN_CALLBACK_METHOD(S)
@@ -192,7 +188,13 @@ namespace VirtualExpo.MainMenu.ConnectionManager
 
             Debug.Log("<color=#B026FF>Welcome to lobby " + PhotonNetwork.NickName + ", \n Now @ Lobby : " + PhotonNetwork.CurrentLobby.Name + "</color>");
 
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.LoadLevel(sceneName);
+            }
+
         }
+
         //When you leave a lobby, OpCreateRoom and OpJoinRandomRoom automatically refer to the default lobby.
         public override void OnLeftLobby()
         {

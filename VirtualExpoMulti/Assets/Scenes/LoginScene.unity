@@ -722,7 +722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &968969785
 Transform:
   m_ObjectHideFlags: 0
@@ -1466,8 +1466,8 @@ MonoBehaviour:
   startButton: {fileID: 1679759995}
   playerNickName: 
   appVersion: 1
-  lobbyName: Conference01
-  lobbyType: 0
+  lobbySettings: {fileID: 11400000, guid: c5eccbbca6d1e3d44b0969100dccb635, type: 2}
+  sceneName: MainArea
 --- !u!1 &2113918090
 GameObject:
   m_ObjectHideFlags: 0

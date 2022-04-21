@@ -1,13 +1,18 @@
 //.NetSystemCollections
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
+
 //Unity Library
 using UnityEngine;
+using UnityEngine.Profiling;
 using TMPro;
 
 //PhotonPunLibrarySDK
 using Photon.Pun;
 using Photon.Realtime;
+
 
 namespace VirtualExpo.MainMenu.DebugLogManager
 {
@@ -40,6 +45,13 @@ namespace VirtualExpo.MainMenu.DebugLogManager
 
         bool isActived = false;
 
+        /*
+          First you have to create the 2 performance counters
+          using the System.Diagnostics.PerformanceCounter class.
+        */
+       // protected static PerformanceCounter cpuCounter;
+       // protected static PerformanceCounter ramCounter;
+
         #endregion
 
         #region Unity Method(s)
@@ -51,23 +63,28 @@ namespace VirtualExpo.MainMenu.DebugLogManager
 
             debugModeText.gameObject.SetActive(false);
 
+            //cpuCounter = new PerformanceCounter("Process", "% Processor Time", "_Total");
+            //ramCounter = new PerformanceCounter("Memory", "Available MBytes", "_Total");
+
         }
 
         private void Update()
         {
 
             EnableFPSCounter();
-            
+
         }
 
         private void FixedUpdate()
         {
-
+            
             FPSCounter();
             if (PhotonNetwork.IsConnectedAndReady)
             {
                 PingRateSpeed();
             }
+
+            //GPUSystemProfiler();
 
         }
 
@@ -119,12 +136,36 @@ namespace VirtualExpo.MainMenu.DebugLogManager
 
         #endregion
 
+        /*
         #region GPUProfiler
 
+        void GPUSystemProfiler()
+        {
 
+            debugModeText.text += "\n CPU : " + GetCurrentCpuUsage();
+            debugModeText.text += "\n RAM : " + GetRamUsage() ;
+
+            UnityEngine.Debug.Log(cpuCounter.NextValue());
+            
+        }
+
+        /*
+            Call this method every time you need to know
+            the current cpu usage.
+        
+
+        public string GetCurrentCpuUsage()
+        {
+            return cpuCounter.NextValue() + "%";
+        }
+
+        public string GetRamUsage()
+        {
+            return ramCounter.NextValue() + "MB";
+        }
 
         #endregion
-
+        **/
         #endregion
 
     }

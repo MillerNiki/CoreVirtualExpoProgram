@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311a220a4ef9562498dd5027670b3373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
+  walkSpeed: 5
   grafity: -9.85
   isGrounded: 0
   jumpHeight: 3

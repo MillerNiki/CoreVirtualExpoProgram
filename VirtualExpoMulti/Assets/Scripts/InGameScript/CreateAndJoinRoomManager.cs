@@ -6,6 +6,7 @@ using System.Linq;
 
 //Unity Library
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
@@ -43,7 +44,7 @@ namespace VirtualExpo.MainArea.RoomManager
         [Space(5)]
         [Header("Custom Room Variable")]
 
-        [SerializeField] RoomSettingsScriptableObject roomSettings;
+        [SerializeField] RoomSettingsScriptableObject[] roomSettings;
 
         bool isJoinedroom = false;
         public bool isJoin
@@ -55,6 +56,13 @@ namespace VirtualExpo.MainArea.RoomManager
                 isJoinedroom = value;
             }
 
+        }
+
+        bool isLeftRoom = false;
+        public bool isLeft
+        {
+            get { return isLeftRoom; }
+            set { isLeftRoom = value; }
         }
         
         #endregion
@@ -71,19 +79,19 @@ namespace VirtualExpo.MainArea.RoomManager
 
             PhotonNetwork.AutomaticallySyncScene = true;
 
-            //roomSettings = Resources.LoadAll("DataSettings/RoomSettings", typeof(RoomSettingsScriptableObject)).Cast<RoomSettingsScriptableObject>().ToArray();// for many data
-            roomSettings = Resources.Load<RoomSettingsScriptableObject>("DataSettings/RoomSettings/MainArea01");//for single data
+            roomSettings = Resources.LoadAll("DataSettings/RoomSettings", typeof(RoomSettingsScriptableObject)).Cast<RoomSettingsScriptableObject>().ToArray();// for many data
+            //roomSettings = Resources.Load<RoomSettingsScriptableObject>("DataSettings/RoomSettings/MainArea01");//for single data
 
-            //check if connected to internet    
+        }
+
+        private void Update()
+        {
+            
             if (PhotonNetwork.IsConnectedAndReady)
             {
-
                 Debug.Log("Lobby Name : " + PhotonNetwork.CurrentLobby.Name);
-                //Join Room
                 CreateOrJoinRoom();
-
             }
-
 
         }
 
@@ -94,7 +102,7 @@ namespace VirtualExpo.MainArea.RoomManager
         private void CreateRoomNow(string roomName, bool isVisible, bool isOpen, byte maxPlayer, bool isPublishUserId)
         {
             
-            if (PhotonNetwork.IsConnected)
+            if (PhotonNetwork.IsConnectedAndReady)
             {
 
                 if (!isJoinedroom)
@@ -124,7 +132,10 @@ namespace VirtualExpo.MainArea.RoomManager
         private void JoinRoom(string roomName)
         {
 
-            PhotonNetwork.JoinRoom(roomName);
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.JoinRoom(roomName);
+            }
 
         }
 
@@ -135,7 +146,7 @@ namespace VirtualExpo.MainArea.RoomManager
             if (!isJoinedroom)
             {
 
-                if (PhotonNetwork.CountOfRooms == 0)
+                /**if (PhotonNetwork.CountOfRooms == 0)
                 {
 
                     CreateRoomNow(roomSettings.roomName, roomSettings.isVisible, roomSettings.isOpen, roomSettings.maxPlayers, roomSettings.isPublishUserId);
@@ -144,29 +155,27 @@ namespace VirtualExpo.MainArea.RoomManager
                 else
                 {
 
-                    /**for (int i = 0; i < roomListManager.roomListCached.Count; i++)
-                    {
-
-                        if (roomListManager.roomListCached[i].PlayerCount <= roomListManager.roomListCached[i].MaxPlayers)
-                        {
-
-                            JoinRoom(roomListManager.roomListCached[i].Name);
-                            
-                        }
-                        else
-                        {
-
-                            CreateRoomNow(roomName + Random.Range(0, 100), isVisible, isOpen, maxPlayers, isPublishUserId);
-
-                        }
-
-                    }**/
-
                     JoinRoom(roomSettings.roomName); 
+
+                }**/
+
+                for (int i = 0; i < roomSettings.Length; i++)
+                {
+                    string currentSceneName = SceneManager.GetActiveScene().name;
+
+                    if (roomSettings[i].name == currentSceneName)
+                    {
+                        JoinRoom(roomSettings[i].roomName);
+                    }
 
                 }
 
             }
+            else
+            {
+                Debug.Log("You've already joined room");
+                return;
+            }            
 
         }
 
@@ -199,7 +208,18 @@ namespace VirtualExpo.MainArea.RoomManager
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
 
-            Debug.LogError("<color=#FFA500>Message :  " + message + "</color>");
+            Debug.LogWarning("<color=#FFA500>Message :  " + message + "</color>");
+
+            for (int i = 0; i < roomSettings.Length; i++)
+            {
+                string currentSceneName = SceneManager.GetActiveScene().name;
+
+                if (roomSettings[i].name == currentSceneName)
+                {
+                    CreateRoomNow(roomSettings[i].roomName, roomSettings[i].isVisible, roomSettings[i].isOpen, roomSettings[i].maxPlayers, roomSettings[i].isPublishUserId);
+                }
+
+            }
 
         }
 
@@ -209,6 +229,11 @@ namespace VirtualExpo.MainArea.RoomManager
 
             Debug.Log("<color=#FFA500>You was left this room !</color>");
             isJoinedroom = false;
+
+            if (isLeftRoom)
+            {
+                //back to launcher
+            }
 
         }
 

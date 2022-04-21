@@ -22,7 +22,7 @@ namespace VirtualExpo.MainArea.PlayerSpawnManager
         [Space(5)]
         [Header("Spawning Player")]
         [SerializeField]
-        private GameObject playerPrefa;
+        private GameObject playerPrefab;
         [SerializeField]
         private GameObject spawnPosition;
 
@@ -31,7 +31,7 @@ namespace VirtualExpo.MainArea.PlayerSpawnManager
         {
 
             //Spawning Player
-            GameObject customPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefabs", this.playerPrefa.name), spawnPosition.transform.position, Quaternion.identity);
+            GameObject customPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefabs", this.playerPrefab.name), spawnPosition.transform.position, Quaternion.identity);
             customPlayer.name = customPlayer.GetPhotonView().Owner.NickName + " Player";
 
         }

@@ -329,11 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869ed02df27f1614aa27a9de05ae51cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: MainArea
-  maxPlayers: 20
-  isVisible: 1
-  isOpen: 1
-  isPublishUserId: 0
+  roomSettings: {fileID: 0}
 --- !u!114 &703307901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,7 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f2f16a8e02e3345bfc08f0cc2d59b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefa: {fileID: 3880955633056259672, guid: 0ac7e39474fe62d4da3ee9ce86b3e930, type: 3}
+  playerPrefab: {fileID: 3880955633056259672, guid: 0ac7e39474fe62d4da3ee9ce86b3e930, type: 3}
   spawnPosition: {fileID: 1611475574}
 --- !u!1 &845888046
 GameObject:

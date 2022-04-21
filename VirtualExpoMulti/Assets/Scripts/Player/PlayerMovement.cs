@@ -77,7 +77,9 @@ namespace VirtualExpo.Player
             uiForPlayer = this.GetComponent<PlayerUI>();
             uiForPlayer.DefaultUI(thisPlayerName);
 
-            DontDestroyOnLoad(this.gameObject);
+            int.TryParse(this.photonView.Owner.UserId, out thisPlayerId);
+
+            //DontDestroyOnLoad(this.gameObject);
 
         }
 
@@ -172,11 +174,18 @@ namespace VirtualExpo.Player
             if (other.tag == "Teleporter")
             {
 
-                string sceneName = other.GetComponent<Teleporter>().sceneName;
-                PhotonNetwork.Destroy(this.gameObject);
-                PhotonNetwork.LoadLevel(sceneName);
+                ChangeScene(other);
 
             }
+
+        }
+
+        void ChangeScene(Collider other)
+        {
+
+            PhotonNetwork.LeaveRoom();
+            string sceneName = other.GetComponent<Teleporter>().sceneName;
+            PhotonNetwork.LoadLevel(sceneName);
 
         }
 

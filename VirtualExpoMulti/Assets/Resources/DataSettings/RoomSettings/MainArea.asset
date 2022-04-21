@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1488593d5a1b1048a0db3451f97f69a, type: 3}
-  m_Name: MainArea01
+  m_Name: MainArea
   m_EditorClassIdentifier: Assembly-CSharp:VirtualExpo.CustomRoomsSettings:RoomSettingsScriptableObject
-  roomName: MainArea01
+  roomName: MainArea
   maxPlayers: 200
   isVisible: 1
   isOpen: 1

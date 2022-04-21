@@ -329,7 +329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869ed02df27f1614aa27a9de05ae51cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSettings: {fileID: 11400000, guid: f29b7f916136446418f30c09cc69c536, type: 2}
+  roomSettings:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &703307901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f2f16a8e02e3345bfc08f0cc2d59b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefa: {fileID: 3880955633056259672, guid: 0ac7e39474fe62d4da3ee9ce86b3e930, type: 3}
+  playerPrefab: {fileID: 3880955633056259672, guid: 0ac7e39474fe62d4da3ee9ce86b3e930, type: 3}
   spawnPosition: {fileID: 1611475574}
 --- !u!1 &845888046
 GameObject:
@@ -773,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6386944938979678119, guid: 15bde237bbb0e10488cb4af0c5d17543, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.22
+      value: 14.02
       objectReference: {fileID: 0}
     - target: {fileID: 6386944938979678119, guid: 15bde237bbb0e10488cb4af0c5d17543, type: 3}
       propertyPath: m_LocalPosition.y
@@ -781,7 +784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6386944938979678119, guid: 15bde237bbb0e10488cb4af0c5d17543, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22
+      value: -17.99
       objectReference: {fileID: 0}
     - target: {fileID: 6386944938979678119, guid: 15bde237bbb0e10488cb4af0c5d17543, type: 3}
       propertyPath: m_LocalRotation.w

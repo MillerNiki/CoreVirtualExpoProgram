@@ -79,7 +79,7 @@ namespace VirtualExpo.Player
 
             int.TryParse(this.photonView.Owner.UserId, out thisPlayerId);
 
-            //DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
 
         }
 
@@ -183,9 +183,13 @@ namespace VirtualExpo.Player
         void ChangeScene(Collider other)
         {
 
-            PhotonNetwork.LeaveRoom();
+            
             string sceneName = other.GetComponent<Teleporter>().sceneName;
-            PhotonNetwork.LoadLevel(sceneName);
+            PlayerPrefs.SetString("TargetScene", sceneName);
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.AutomaticallySyncScene = false;
+            PhotonNetwork.LoadLevel("LoadingScene");
+            Destroy(this.gameObject);
 
         }
 

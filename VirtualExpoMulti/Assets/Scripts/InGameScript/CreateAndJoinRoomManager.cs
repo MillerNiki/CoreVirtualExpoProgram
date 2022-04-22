@@ -64,6 +64,12 @@ namespace VirtualExpo.MainArea.RoomManager
             get { return isLeftRoom; }
             set { isLeftRoom = value; }
         }
+
+        [SerializeField]
+        public string lobbyName
+        {
+            get; private set;
+        }
         
         #endregion
 
@@ -82,6 +88,13 @@ namespace VirtualExpo.MainArea.RoomManager
             roomSettings = Resources.LoadAll("DataSettings/RoomSettings", typeof(RoomSettingsScriptableObject)).Cast<RoomSettingsScriptableObject>().ToArray();// for many data
             //roomSettings = Resources.Load<RoomSettingsScriptableObject>("DataSettings/RoomSettings/MainArea01");//for single data
 
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                lobbyName = PhotonNetwork.CurrentLobby.Name;
+            }
+
+            Debug.Log(SceneManager.GetActiveScene().name + " isLoaded");
+
         }
 
         private void Update()
@@ -89,8 +102,7 @@ namespace VirtualExpo.MainArea.RoomManager
             
             if (PhotonNetwork.IsConnectedAndReady)
             {
-                Debug.Log("Lobby Name : " + PhotonNetwork.CurrentLobby.Name);
-                CreateOrJoinRoom();
+                JoinRoom();
             }
 
         }
@@ -99,7 +111,7 @@ namespace VirtualExpo.MainArea.RoomManager
 
         #region Create or Join Room Manager
 
-        private void CreateRoomNow(string roomName, bool isVisible, bool isOpen, byte maxPlayer, bool isPublishUserId)
+        private void CreateRoomDataCaller(string roomName, bool isVisible, bool isOpen, byte maxPlayer, bool isPublishUserId)
         {
             
             if (PhotonNetwork.IsConnectedAndReady)
@@ -123,23 +135,11 @@ namespace VirtualExpo.MainArea.RoomManager
                     Debug.Log("You has been joined room! Room Name : " + PhotonNetwork.CurrentRoom.Name);
                 }
 
-            }
-
-            return;
+            }      
 
         }
 
-        private void JoinRoom(string roomName)
-        {
-
-            if (PhotonNetwork.IsConnectedAndReady)
-            {
-                PhotonNetwork.JoinRoom(roomName);
-            }
-
-        }
-
-        public void CreateOrJoinRoom()
+        private void JoinRoom()
         {
 
             ///check if we're in room or not
@@ -165,17 +165,35 @@ namespace VirtualExpo.MainArea.RoomManager
 
                     if (roomSettings[i].name == currentSceneName)
                     {
-                        JoinRoom(roomSettings[i].roomName);
+
+                        PhotonNetwork.JoinRoom(roomSettings[i].roomName);
+                    
+                    }
+
+                }
+
+            }        
+
+        }
+
+        private void CreateRoom()
+        {
+
+            if (!isJoinedroom)
+            {
+
+                for (int i = 0; i < roomSettings.Length; i++)
+                {
+                    string currentSceneName = SceneManager.GetActiveScene().name;
+
+                    if (roomSettings[i].name == currentSceneName)
+                    {
+                        CreateRoomDataCaller(roomSettings[i].roomName, roomSettings[i].isVisible, roomSettings[i].isOpen, roomSettings[i].maxPlayers, roomSettings[i].isPublishUserId);
                     }
 
                 }
 
             }
-            else
-            {
-                Debug.Log("You've already joined room");
-                return;
-            }            
 
         }
 
@@ -210,16 +228,7 @@ namespace VirtualExpo.MainArea.RoomManager
 
             Debug.LogWarning("<color=#FFA500>Message :  " + message + "</color>");
 
-            for (int i = 0; i < roomSettings.Length; i++)
-            {
-                string currentSceneName = SceneManager.GetActiveScene().name;
-
-                if (roomSettings[i].name == currentSceneName)
-                {
-                    CreateRoomNow(roomSettings[i].roomName, roomSettings[i].isVisible, roomSettings[i].isOpen, roomSettings[i].maxPlayers, roomSettings[i].isPublishUserId);
-                }
-
-            }
+            CreateRoom();
 
         }
 
@@ -234,6 +243,14 @@ namespace VirtualExpo.MainArea.RoomManager
             {
                 //back to launcher
             }
+
+        }
+
+        //Called after disconnecting from the Photon server. It could be a failure or intentional
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+
+            Debug.Log("<color=#FFA500>You has been disconnected from server!</color>");
 
         }
 

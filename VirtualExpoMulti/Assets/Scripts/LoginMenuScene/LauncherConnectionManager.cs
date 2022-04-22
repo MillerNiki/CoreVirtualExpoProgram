@@ -31,7 +31,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         #region Public Variable
         [Header("UI Elements")]
         public TMP_InputField inputNickName;
-
+        public TMP_Dropdown dropdownMenu;
         public Button startButton;
 
         #endregion
@@ -40,6 +40,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         [Header("Photon Player Identity Variable")]
         [SerializeField] private string playerNickName;
         [SerializeField] private string appVersion = "1";
+        [SerializeField] private string genSelection;
 
         [SerializeField] private LobbySettingsScriptableObject lobbySettings;
 
@@ -95,6 +96,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
             PhotonNetwork.GameVersion = this.appVersion; //Application Version
             PhotonNetwork.NickName = this.playerNickName; //settingPlayer NickName
 
+            Debug.Log(this.playerNickName + ", " + this.genSelection);
+
         }
 
         private void PlayerNameInput()
@@ -112,6 +115,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
 
                 startButton.interactable = true;
                 playerNickName = inputNickName.text;
+                genSelection = dropdownMenu.value.ToString();
+                PlayerPrefs.SetString("GenSelection", this.genSelection);
 
             }
 
@@ -190,7 +195,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
 
             if (PhotonNetwork.IsConnectedAndReady)
             {
-                PhotonNetwork.LoadLevel(sceneName);
+                PlayerPrefs.SetString("TargetScene", sceneName);
+                PhotonNetwork.LoadLevel("LoadingScene");
             }
 
         }

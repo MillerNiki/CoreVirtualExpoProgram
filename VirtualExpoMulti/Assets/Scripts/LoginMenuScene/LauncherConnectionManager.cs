@@ -40,7 +40,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         [Header("Photon Player Identity Variable")]
         [SerializeField] private string playerNickName;
         [SerializeField] private string appVersion = "1";
-        [SerializeField] private string genSelection;
+        [SerializeField] private int charSelection;
 
         [SerializeField] private LobbySettingsScriptableObject lobbySettings;
 
@@ -96,7 +96,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
             PhotonNetwork.GameVersion = this.appVersion; //Application Version
             PhotonNetwork.NickName = this.playerNickName; //settingPlayer NickName
 
-            Debug.Log(this.playerNickName + ", " + this.genSelection);
+            Debug.Log(this.playerNickName + ", " + this.charSelection);
 
         }
 
@@ -115,8 +115,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
 
                 startButton.interactable = true;
                 playerNickName = inputNickName.text;
-                genSelection = dropdownMenu.value.ToString();
-                PlayerPrefs.SetString("GenSelection", this.genSelection);
+                charSelection = dropdownMenu.value;
+                PlayerPrefs.SetInt("CharacterSelection", this.charSelection);
 
             }
 

@@ -1,0 +1,37 @@
+﻿<Properties StartupConfiguration="{C64816A9-345C-1B30-98C6-E6E620B9420A}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/AvatarSelection.cs">
+    <Files>
+      <File FileName="Assets/Scripts/LoginMenuScene/LauncherConnectionManager.cs" Line="45" Column="26" />
+      <File FileName="Assets/Scripts/InGameScript/CreateAndJoinRoomManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InGameScript/RoomListManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LoadingSceneScripts/LoadingSceneManager.cs" />
+      <File FileName="Assets/Scripts/InGameScript/SpawnManager.cs" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/Player/AvatarSelection.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/PlayerMovement.cs" Line="82" Column="37" NotebookId="1" />
+      <File FileName="Assets/Scripts/Player/CMFreelookOnlyWhenRightMouseDown.cs" NotebookId="1" />
+      <File FileName="Assets/Scripts/Player/PlayerUI.cs" NotebookId="1" />
+      <File FileName="Assets/Scripts/ScriptableObject/LobbySettingsScriptableObject.cs" NotebookId="1" />
+      <File FileName="Assets/Scripts/ScriptableObject/RoomSettingsScriptableObject.cs" NotebookId="1" />
+      <File FileName="Assets/Scripts/WebCam.cs" NotebookId="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="VirtualExpoMulti" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3d8bf416-be91-42e2-b4eb-57499cb735c6" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

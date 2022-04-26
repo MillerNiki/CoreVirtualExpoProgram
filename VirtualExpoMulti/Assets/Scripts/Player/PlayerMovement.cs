@@ -1,6 +1,8 @@
 //.NetSystemCollections
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 //Unity Library
 using UnityEngine;
@@ -21,7 +23,6 @@ namespace VirtualExpo.Player
 
         [Header("Player Needed Variable")]
         private string thisPlayerName;
-        private int thisPlayerId;
         [SerializeField] private float walkSpeed = 6f;
         [SerializeField] private float grafity = -9.8f;
         [SerializeField] private bool isGrounded;
@@ -47,8 +48,7 @@ namespace VirtualExpo.Player
 
         [Space(5)]
         [Header("Player Animation")]
-        [SerializeField] private Animator anim;
-        //[SerializeField] private float directionDampTime = 0.25f;
+        [SerializeField] internal Animator anim;
 
         private PlayerUI uiForPlayer;
 
@@ -67,19 +67,20 @@ namespace VirtualExpo.Player
         private void Awake()
         {
 
-            //playerCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
             if (photonView.IsMine)
             {
                 PlayerMovement.LocalPlayerInstance = this.gameObject;
             }
 
+            //setting name at UI
             thisPlayerName = photonView.Owner.NickName;
             uiForPlayer = this.GetComponent<PlayerUI>();
             uiForPlayer.DefaultUI(thisPlayerName);
 
-            int.TryParse(this.photonView.Owner.UserId, out thisPlayerId);
-
             DontDestroyOnLoad(this.gameObject);
+
+            anim = this.GetComponentInChildren<Animator>();
+            photonView.ObservedComponents.Add(anim.GetComponent<PhotonAnimatorView>());
 
         }
 
@@ -87,18 +88,7 @@ namespace VirtualExpo.Player
         void Update()
         {
 
-            if (!photonView.IsMine && PhotonNetwork.IsConnected)
-            {
-                playerCam.gameObject.SetActive(false);
-                cinemaMachineComponent.SetActive(false);
-                return;
-            }
-            else
-            {
-                playerCam.gameObject.SetActive(true);
-                cinemaMachineComponent.SetActive(true);
-                MovementWalk(walkSpeed);
-            }
+            PhotonViewDetection();
 
         }
 
@@ -201,8 +191,7 @@ namespace VirtualExpo.Player
         {
 
             anim.SetFloat("Speed", horizontal * horizontal + vertical * vertical);
-            //anim.SetFloat("Direction", horizontal, directionDampTime, Time.deltaTime);
-
+            
         }
 
         void JumpAnimation()
@@ -212,7 +201,27 @@ namespace VirtualExpo.Player
 
         }
 
+        void PhotonViewDetection()
+        {
+
+            if (!photonView.IsMine && PhotonNetwork.IsConnected)
+            {
+                playerCam.gameObject.SetActive(false);
+                cinemaMachineComponent.SetActive(false);
+                return;
+            }
+            else
+            {
+                playerCam.gameObject.SetActive(true);
+                cinemaMachineComponent.SetActive(true);
+                MovementWalk(walkSpeed);
+            }
+
+        }
+
         #endregion
+
+
 
         #region Photon Pun IPunObservable Implementation
 
@@ -221,20 +230,28 @@ namespace VirtualExpo.Player
 
             if (stream.IsWriting)
             {
+
                 // We own this player: send the others our data
                 //any data (gameobject that activated or other data)
+                stream.SendNext(horizontalInput);
+                stream.SendNext(verticalInput);
+
             }
             else
             {
+
                 // Network player, receive data
                 //any data (gameobject that activated or other data)
+                horizontalInput = (float)stream.ReceiveNext();
+                verticalInput = (float)stream.ReceiveNext();
+
             }
 
         }
 
         #endregion
 
-        #region Photon Pun Callbacks Methods
+        #region Photon Pun Callbacks Method(s)
 
 
 

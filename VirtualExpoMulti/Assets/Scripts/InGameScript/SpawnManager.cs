@@ -13,6 +13,9 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
+using VirtualExpo.Player;
+using VirtualExpo.CharacterDatas;
+
 namespace VirtualExpo.MainArea.PlayerSpawnManager
 {
 
@@ -25,14 +28,29 @@ namespace VirtualExpo.MainArea.PlayerSpawnManager
         private GameObject playerPrefab;
         [SerializeField]
         private GameObject spawnPosition;
+        [SerializeField]
+        private CharacterDataScriptableObject[] charDatas;
+        private int myCharacterSelection;
 
+        private void Awake()
+        {
+
+            charDatas = Resources.LoadAll("DataSettings/CustomCharacter", typeof(CharacterDataScriptableObject)).Cast<CharacterDataScriptableObject>().ToArray();// for many data
+
+        }
 
         public void SpawningPlayerNow()
         {
 
-            //Spawning Player
-            GameObject customPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefabs", this.playerPrefab.name), spawnPosition.transform.position, Quaternion.identity);
-            customPlayer.name = customPlayer.GetPhotonView().Owner.NickName + " Player";
+            myCharacterSelection = PlayerPrefs.GetInt("CharacterSelection");
+
+            if (PlayerMovement.LocalPlayerInstance == null)
+            {
+
+                //Spawning Player
+                GameObject customPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefabs/Player", charDatas[myCharacterSelection].charPrefab.name), spawnPosition.transform.position, Quaternion.identity);
+
+            }
 
         }
 

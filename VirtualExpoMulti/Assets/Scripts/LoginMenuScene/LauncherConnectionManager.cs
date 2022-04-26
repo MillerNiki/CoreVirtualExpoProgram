@@ -40,12 +40,13 @@ namespace VirtualExpo.MainMenu.ConnectionManager
         [Header("Photon Player Identity Variable")]
         [SerializeField] private string playerNickName;
         [SerializeField] private string appVersion = "1";
+
         [SerializeField] private int charSelection;
+        [SerializeField] private List<string> charNames;
 
         [SerializeField] private LobbySettingsScriptableObject lobbySettings;
 
         [SerializeField] private string sceneName = "MainArea";
-
 
         LobbyType lobbyTypeChoise;
         TypedLobby customLobby;
@@ -61,6 +62,7 @@ namespace VirtualExpo.MainMenu.ConnectionManager
             
             PhotonNetwork.AutomaticallySyncScene = true;
 
+            dropdownMenu.AddOptions(charNames);
             //Resources.LoadAll("FolderName/FolderName(x)", typeof("TypeOfClass/Data")).Cast<"TypeOfClass/Data">().ToArray(); // this is for load the data from resources
 
         }
@@ -116,7 +118,8 @@ namespace VirtualExpo.MainMenu.ConnectionManager
                 startButton.interactable = true;
                 playerNickName = inputNickName.text;
                 charSelection = dropdownMenu.value;
-                PlayerPrefs.SetInt("CharacterSelection", this.charSelection);
+
+                PlayerPrefs.SetInt("CharacterSelection", charSelection);
 
             }
 

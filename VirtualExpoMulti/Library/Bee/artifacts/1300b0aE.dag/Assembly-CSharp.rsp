@@ -370,6 +370,7 @@
 "Assets/Scripts/LoadingSceneScripts/LoadingSceneManager.cs"
 "Assets/Scripts/LoginMenuScene/DebugMenuManager.cs"
 "Assets/Scripts/LoginMenuScene/LauncherConnectionManager.cs"
+"Assets/Scripts/Player/AvatarSelection.cs"
 "Assets/Scripts/Player/CMFreelookOnlyWhenRightMouseDown.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
 "Assets/Scripts/Player/PlayerUI.cs"

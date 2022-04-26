@@ -1038,13 +1038,13 @@
       <Project>{C292DD7A-7BA8-D5BD-4F9A-61B9F32CA15C}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{FF414330-8B76-9FB2-0F1B-B0A541B8F0CD}</Project>
-      <Name>UnityEditor.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{37B50527-0DCE-03A9-1D6D-AFCD415A559D}</Project>
       <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{FF414330-8B76-9FB2-0F1B-B0A541B8F0CD}</Project>
+      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

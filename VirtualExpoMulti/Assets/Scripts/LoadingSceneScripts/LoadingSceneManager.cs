@@ -51,7 +51,7 @@ namespace VirtualExpo.LoadingScene
         private void Start()
         {
 
-            PhotonNetwork.AutomaticallySyncScene = true;
+            //PhotonNetwork.AutomaticallySyncScene = true;
 
             Debug.Log(PhotonNetwork.CurrentLobby.Name);
 

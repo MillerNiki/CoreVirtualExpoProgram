@@ -179,7 +179,7 @@ namespace VirtualExpo.Player
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LoadLevel("LoadingScene");
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
 
         }
 

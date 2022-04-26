@@ -1,3 +1,4 @@
+UnityEngine.WebCamTexture
 UnityEngine.Microphone
 UnityEngine.Input::get_touches
 UnityEngine.Input::get_touchCount

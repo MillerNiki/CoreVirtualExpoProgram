@@ -7,7 +7,9 @@ android.permission.INTERNET was added because:
 		websocket-sharp-FeaturesChecked.txt
 		PhotonRealtime-FeaturesChecked.txt
 		Photon3Unity3D-FeaturesChecked.txt
-	Development player
+android.permission.CAMERA, android.hardware.camera (Auto Focus, Front) were added because:
+	UnityEngine.WebCamTexture was present in:
+		Assembly-CSharp-FeaturesChecked.txt
 android.permission.RECORD_AUDIO, android.permission.MODIFY_AUDIO_SETTINGS, android.permission.BLUETOOTH, android.hardware.microphone were added because:
 	UnityEngine.Microphone was present in:
 		Assembly-CSharp-FeaturesChecked.txt
